@@ -1,0 +1,93 @@
+Instructions for local installation
+
+1. Requirements
+- Telegram account (for userbot)
+- Your bot must be made admin in your channel/group
+
+2. Create a Telegram bot
+- Open @BotFather
+- /newbot
+- Copy your BOT TOKEN
+- Add your bot for your telegram channel like a admin and allow him to read your message history
+
+3. Get API_ID and API_HASH (for userbot)
+- Go to https://my.telegram.org
+- Log in with your phone number
+- Go to "API development tools"
+- Copy API_ID and API_HASH
+
+4. Get your ADMIN_USER_ID
+- Write to @userinfobot
+- Copy your Telegram user ID
+
+5. Set up PostgreSQL database
+- Create a new database (or use an existing one)
+- Use an existing user or create a new one
+- Make sure pgvector extension is enabled if using vector search
+
+6. Edit .env file (in project root)
+
+TOKEN=YOUR_BOT_TOKEN
+API_ID=YOUR_API_ID
+API_HASH=YOUR_API_HASH
+
+DB_USER=postgres
+DB_PASSWORD=YOUR_DB_PASSWORD
+DB_NAME=YOUR_DB_NAME
+DB_HOST=localhost
+DB_PORT=5432
+
+ADMIN_USER_ID=YOUR_TELEGRAM_ID
+
+(Note: no spaces around '=')
+
+
+7. Configure Docker for PostgreSQL (docker-compose.yml)
+
+version: '3.8'
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg18-trixie
+    container_name: (somehow, there is no difference, its just a container for docker)
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: YOUR_DB_PASSWORD
+      POSTGRES_DB: YOUR_DB_NAME
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+
+volumes:
+  pgdata:
+
+8. Install Python dependencies
+
+pip install aiogram telethon asyncpg python-dotenv sentence-transformers
+
+9. Configure bot (config.py or main script)
+
+SOURCE_CHANNELS = ["foxmex"] # name you channel without - @
+
+10. First run
+
+python main.py
+
+- Enter your phone number for Telethon userbot
+- Enter the code from Telegram
+- Session will be saved automatically
+
+11. Bot functionality
+
+- fix — update or correct an answer (admin only)
+- add_question — add a new question and answer (admin only)
+- delete_question — delete a question and answer (admin only)
+- Bot responds automatically to questions in groups or private messages
+- Vector search ensures similar questions are matched and no duplicate entries are created
+
+12. Notes
+
+- Userbot must be a member of source channels
+- Bot must be admin in target groups/chats if you want it to send messages
+- Welcome message is sent when bot joins a group

@@ -1,0 +1,25 @@
+{
+  "chat_id": "<CHAT_ID>",
+  "text": "Hello! 👋\nI am a bot that can answer questions and manage the knowledge database.\n\nCommands for admins:\n/fix — correct or update an answer to a question\n/add_question — add a new question and answer\n/delete_question — delete a question and its answer\n\nJust type a question, and I will try to answer!",
+  "parse_mode": "HTML",
+  "reply_markup": {
+    "inline_keyboard": [
+      [
+        {
+          "text": "Fix answer",
+          "callback_data": "fix"
+        },
+        {
+          "text": "Add question",
+          "callback_data": "add_question"
+        }
+      ],
+      [
+        {
+          "text": "Delete question",
+          "callback_data": "delete_question"
+        }
+      ]
+    ]
+  }
+}
